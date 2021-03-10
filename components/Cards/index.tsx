@@ -66,7 +66,7 @@ export const Cards = () => {
                             <DivCard key={index}> 
                                 <ImageUser src={candidate.photoUserUrl}  alt="User Profile"/>    
                                 <SpanCity> {candidate.city} </SpanCity>
-                                <Title> Desenvolvedor(a) {candidateMainTechnologic.name || candidate.technologies[0].name} </Title>
+                                <Title> Desenvolvedor(a) {candidateMainTechnologic?.name || candidate.technologies[0].name} </Title>
                                 <SpanExperience> Experiência {candidate.experience.replace('years', 'anos')}</SpanExperience>
                                 <Em> Tecnologias que ja trabalhou</Em>
                                 <Ul>
