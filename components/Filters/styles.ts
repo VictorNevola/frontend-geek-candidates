@@ -1,6 +1,36 @@
 import styles from 'styled-components';
-import { IpropsStyleFilterMoreOptions } from './types';
+import { IPropsStyleActiveFilterMobile } from './types';
 
+
+export const BtnFilterMobile = styles.button`
+    display: none;
+
+    @media (min-width:320px) and (max-width:768px) {
+        display: block;
+        background: #6e2b77 0% 0% no-repeat padding-box;
+        border-radius: 2px;
+        letter-spacing: 0.96px;
+        color: #ffffff;
+        text-transform: uppercase;
+        border: none;
+        padding: 8px 18px;
+        margin: 0 auto;
+        font-size: 16px;
+    }
+`;
+
+export const BtnCloseFilterMobile = styles.button`
+    display: none;
+
+    @media (min-width:320px) and (max-width:768px) {
+        display: block;
+        position: absolute;
+        top: 26px;
+        right: 31px;
+        font-size: 18px;
+        cursor: pointer;
+    }
+`
 
 export const Aside = styles.aside`
     display: flex;
@@ -11,6 +41,24 @@ export const Aside = styles.aside`
     border: 1px solid #f9f9f9;
     background-color: #ffffff;
     padding: 26px;
+    transition: all .4s ease;
+
+    @media (min-width:320px) and (max-width:768px) {
+        display: block;
+        position: fixed;
+        bottom: 0;
+        z-index: 99;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        overflow-y: scroll;
+        margin-top: 0;
+        opacity: ${(props: IPropsStyleActiveFilterMobile) => props.active ? '1' : '0' };
+        pointer-events: ${(props: IPropsStyleActiveFilterMobile) => props.active ? 'auto' : 'none' };
+        transform: translateY(40rem);
+        transform: ${(props: IPropsStyleActiveFilterMobile) => props.active ? 'translateY(0px);' : 'translateY(40rem)' };
+    }
 `;
 export const FilterInfos = styles.p`
     display: block;
@@ -39,6 +87,10 @@ export const Ul = styles.ul`
     margin-bottom: 8px;
     transition: height .4s ease-in-out;
     max-height: 20rem;
+
+    @media (min-width:320px) and (max-width:768px) {
+        max-height: 12rem;
+    }
 
     &::-webkit-scrollbar {
         background-color:#fff;
@@ -131,4 +183,11 @@ export const BtnActionFilter = styles.button`
     text-transform: uppercase;
     border: none;
     padding: 8px;
+
+
+    @media (min-width:320px) and (max-width:768px) {
+        display: flex;
+        justify-content: center;
+        width: 100%
+    }
 `;

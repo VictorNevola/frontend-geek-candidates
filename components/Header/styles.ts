@@ -11,10 +11,10 @@ export const Wrapper = styles.div`
     max-width: 1280px;
     margin: 0 auto;
     position: relative; 
+    padding: 0 1rem;
 `;
 
 export const Main = styles.main`
     display: flex;
-
 
 `

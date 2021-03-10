@@ -1,8 +1,9 @@
 import { NextPage } from 'next';
 import { IFiltersAvailbles } from './types';
 import api from '../services/api';
-import FiltersContextProvider from '../Context/filter';
+import CandidatesContextProvider from '../context/candidates';
 import { Filters } from '../components/Filters';
+import { Cards } from '../components/Cards';
 import { Section, Main, H1, Strong, Em, Content } from './styles';
 
 
@@ -12,13 +13,14 @@ const Home: NextPage<IFiltersAvailbles> = ({ technologies, experiences }) => {
     <>
       <Section>
         <Main>
-          <H1> As melhores vagas para <Strong>programadores</Strong> e <Strong>desenvolvedores</Strong> </H1>
+          <H1> Os melhores <Strong>candidados</Strong> para seus <Strong>requisitos</Strong> </H1>
           <Em>Para filtrar os candidatos conforme sua escolha, selecione os filtros abaixo</Em>
 
           <Content>
-              <FiltersContextProvider>
+              <CandidatesContextProvider>
                 <Filters technologies={technologies} experiences={experiences} />
-              </FiltersContextProvider>
+                <Cards />
+              </CandidatesContextProvider>
           </Content>
 
         </Main>

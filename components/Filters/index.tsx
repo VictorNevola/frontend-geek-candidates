@@ -1,10 +1,11 @@
-import { Aside, FilterInfos, H2, Ul, Li, FiltersOptions, Label, InputCheckbox, SpanCheckbox, BtnActionFilter } from './styles'
+import { Aside, FilterInfos, H2, Ul, Li, FiltersOptions, Label, InputCheckbox, SpanCheckbox, BtnActionFilter, BtnFilterMobile, BtnCloseFilterMobile } from './styles'
 import { IFiltersAvailbles } from '../../pages/types';
-import { FiltersContext } from '../../Context/filter';
+import { CandidatesContext } from '../../context/candidates';
 import React, { useCallback, useContext, useState } from 'react';
 
 export const Filters = ({ experiences, technologies }: IFiltersAvailbles) => {
-    const { candidates, setNewCandidatesCurrentFilters } = useContext(FiltersContext);
+    const { setNewCandidatesCurrentFilters } = useContext(CandidatesContext);
+    const [activeFilterMobile, setActiveFilterMobile] = useState(false);
 
     const setFiltersTechnologic = new Set<string>();
     const setFiltersExperience = new Set<string>();
@@ -43,60 +44,65 @@ export const Filters = ({ experiences, technologies }: IFiltersAvailbles) => {
     const handlerSubmit = () => {
         const technologies = filtersTechnologicSelected;
         const experiences = filtersExperienceSelected;
-        
-        setNewCandidatesCurrentFilters({technologies, experiences})
+        setNewCandidatesCurrentFilters({technologies, experiences});
+        setActiveFilterMobile(false);
     }
 
     return (
-        <Aside>
+        <> 
 
-            <div>{candidates.length}</div>
+            <BtnFilterMobile onClick={() => setActiveFilterMobile(true)}> FILTRE 🔍 </BtnFilterMobile>
 
-            <FilterInfos> FILTRE 🔍 </FilterInfos>
+            <Aside active={activeFilterMobile}>
 
-            <FiltersOptions>
-                <H2>Tecnologias</H2>
-                <Ul>
-                    {
-                        technologies.map((tecnologic, index) => {
-                            // return <Li> {tecnologic.name} ({tecnologic.count}) </Li>
-                            return (
-                                <Li key={index}>
-                                    <Label>
-                                        {tecnologic.name} ({tecnologic.count})
-                                            <InputCheckbox data-filter={tecnologic.name} data-ref="technologic" type="checkbox" onChange={(e) => handlerFiltersTechnologic(e)} />
-                                        <SpanCheckbox />
-                                    </Label>
-                                </Li>
-                            )
-                        })
-                    }
-                </Ul>
-            </FiltersOptions>
+                <FilterInfos> FILTRE 🔍 </FilterInfos>
 
-            <FiltersOptions>
-                <H2>Tempo de Experiência</H2>
-                <Ul>
-                    {
-                        experiences.map((experience, index) => {
-                            return (
-                                <Li key={index}>
-                                    <Label>
-                                        {experience.name.replace('years', 'anos')} ({experience.count})
-                                            <InputCheckbox data-filter={experience.name} data-ref="experience" type="checkbox" onChange={(e) => handlerFiltersTechnologic(e)}/>
-                                        <SpanCheckbox />
-                                    </Label>
-                                </Li>
-                            )
-                        })
-                    }
-                </Ul>
-            </FiltersOptions>
+                <BtnCloseFilterMobile onClick={() => setActiveFilterMobile(false)}> X </BtnCloseFilterMobile>
 
-            {
-                filtersTechnologicSelected.length > 0 && <BtnActionFilter onClick={() => handlerSubmit()}> Filtrar </BtnActionFilter>
-            }
+                <FiltersOptions>
+                    <H2>Tecnologias</H2>
+                    <Ul>
+                        {
+                            technologies.map((tecnologic, index) => {
+                                // return <Li> {tecnologic.name} ({tecnologic.count}) </Li>
+                                return (
+                                    <Li key={index}>
+                                        <Label>
+                                            {tecnologic.name} ({tecnologic.count})
+                                                <InputCheckbox data-filter={tecnologic.name} data-ref="technologic" type="checkbox" onChange={(e) => handlerFiltersTechnologic(e)} />
+                                            <SpanCheckbox />
+                                        </Label>
+                                    </Li>
+                                )
+                            })
+                        }
+                    </Ul>
+                </FiltersOptions>
 
-        </Aside>
+                <FiltersOptions>
+                    <H2>Tempo de Experiência</H2>
+                    <Ul>
+                        {
+                            experiences.map((experience, index) => {
+                                return (
+                                    <Li key={index}>
+                                        <Label>
+                                            {experience.name.replace('years', 'anos')} ({experience.count})
+                                                <InputCheckbox data-filter={experience.name} data-ref="experience" type="checkbox" onChange={(e) => handlerFiltersTechnologic(e)}/>
+                                            <SpanCheckbox />
+                                        </Label>
+                                    </Li>
+                                )
+                            })
+                        }
+                    </Ul>
+                </FiltersOptions>
+
+                {
+                    filtersTechnologicSelected.length > 0 && <BtnActionFilter onClick={() => handlerSubmit()}> Filtrar </BtnActionFilter>
+                }
+
+            </Aside>
+        </>
     )
 };

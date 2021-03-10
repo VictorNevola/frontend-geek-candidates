@@ -1,5 +1,4 @@
 import GlobalStyles from '../styles/global';
-
 import Head from 'next/head';
 import { Header } from '../components/Header';
 

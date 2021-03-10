@@ -8,6 +8,10 @@ export const H1 = styles.h1`
     font-size: 26px;
     color: #363940;
     font-weight: 500;
+
+    @media (min-width:320px) and (max-width:768px) {
+        font-size: 22px;
+    }
 `;
 
 export const Strong = styles.strong`
@@ -27,12 +31,17 @@ export const Em = styles.em`
 export const Main = styles.main`
     max-width: 1280px;
     margin: 0 auto;
-    position: relative; 
+    position: relative;
+    padding: 0 1rem;
 `;
 
 export const Content = styles.div`
     display: flex;
-    align-items:center;
     justify-content: space-between;
     margin-top: 34px;
+
+    @media (min-width:320px) and (max-width:768px) {
+        display: block;
+    }
+    
 `

@@ -1,3 +1,3 @@
-export interface IpropsStyleFilterMoreOptions {
+export interface IPropsStyleActiveFilterMobile {
     active: boolean
 }
