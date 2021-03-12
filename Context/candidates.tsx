@@ -2,11 +2,14 @@ import React, { createContext, useState, FC } from "react";
 import { CandidatesContextState, Filters, Candidate } from "./types";
 import api from '../services/api';
 import axios from "axios";
-import { use } from "chai";
 
 const contextDefaultValues: CandidatesContextState = {
     candidates: [],
-    filtersDefined: false,
+    filtersDefined: {
+        defined: false,
+        filterMainTech: ''
+    },
+    loader: false,
     setNewCandidatesCurrentFilters: () => { },
 };
 
@@ -16,12 +19,17 @@ export const CandidatesContext = createContext<CandidatesContextState>(
 
 const CandidatesContextProvider: FC = ({ children }) => {
     const [candidates, setCandidates] = useState<Candidate[]>(contextDefaultValues.candidates);
-    const [filtersDefined, setFiltersDefined] = useState<boolean>();
+    const [filtersDefined, setFiltersDefined] = useState<{defined: boolean  , filterMainTech: string}>();
+    const [loader, setLoader] = useState<boolean>(false);
 
-    const setNewCandidatesCurrentFilters = async ({technologies, experiences}: Filters) => {
+    const setNewCandidatesCurrentFilters = async ({filtersTechnologicSelected, filtersExperienceSelected, filtersLocalizationsSelected}: Filters) => {
+        
+        setLoader(true);
+
         const dataPayload = {
-            filtersTechnologies: technologies,
-            filtersExperienceYears: experiences
+            filtersTechnologies: filtersTechnologicSelected,
+            filtersExperienceYears: filtersExperienceSelected,
+            filterLocalizations: filtersLocalizationsSelected
         }
         const filtersCandidates: Candidate[] = await api.post('api/filterCandidates', dataPayload).then(data => data.data);
         const setPhotoUsers = filtersCandidates?.map( async candidate => {
@@ -31,11 +39,14 @@ const CandidatesContextProvider: FC = ({ children }) => {
             return candidate;
         });
 
-        setFiltersDefined(true);
-
+        
         await Promise.all(setPhotoUsers);
-
         setCandidates(filtersCandidates);
+        setFiltersDefined({
+            defined: true,
+            filterMainTech: filtersTechnologicSelected[0]
+        });
+        setLoader(false);
     };
 
     return (
@@ -43,6 +54,7 @@ const CandidatesContextProvider: FC = ({ children }) => {
             value={{
                 candidates,
                 filtersDefined,
+                loader,
                 setNewCandidatesCurrentFilters
             }}
         >

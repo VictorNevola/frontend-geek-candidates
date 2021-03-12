@@ -13,10 +13,11 @@ export const Cards = () => {
         infinite: false,
         speed: 500,
         slidesToShow: 4,
-        slidesToScroll: 4,
+        slidesToScroll: 2,
         variableWidth: true,
         arrows: false,
         swipe: true,
+        rows: 1,
         responsive: [
             {
               breakpoint: 1024,
@@ -45,12 +46,12 @@ export const Cards = () => {
     return (
         <Section>
                 {
-                    candidates.length == 0  && !filtersDefined &&
+                    candidates.length == 0  && !filtersDefined?.defined &&
                     <SpanInfo> Selecione ao menos uma tecnologia no filtro para visualizar os candidatos.</SpanInfo> 
                 }
 
                 {
-                    candidates.length == 0 && filtersDefined &&
+                    candidates.length == 0 && filtersDefined?.defined &&
                     <SpanInfo> Não encontramos resultados para sua busca, verifique os filtros e tente novamente.</SpanInfo> 
 
                 }
@@ -60,13 +61,11 @@ export const Cards = () => {
 
                     candidates.map((candidate, index) => {
 
-                        const candidateMainTechnologic = candidate.technologies.find(tech => tech.is_main_tech);
-
                         return (
                             <DivCard key={index}> 
                                 <ImageUser src={candidate.photoUserUrl}  alt="User Profile"/>    
                                 <SpanCity> {candidate.city} </SpanCity>
-                                <Title> Desenvolvedor(a) {candidateMainTechnologic?.name || candidate.technologies[0].name} </Title>
+                                <Title> Desenvolvedor(a) {filtersDefined?.filterMainTech} </Title>
                                 <SpanExperience> Experiência {candidate.experience.replace('years', 'anos')}</SpanExperience>
                                 <Em> Tecnologias que ja trabalhou</Em>
                                 <Ul>

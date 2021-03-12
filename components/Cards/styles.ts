@@ -3,10 +3,11 @@ import styles from 'styled-components';
 export const Section = styles.section`
     display: grid;
     grid-template-columns: repeat(auto-fill,minmax(47%,1fr));
+    grid-template-rows: repeat(3, 21rem);
     grid-column-gap: 6px;
-    grid-row-gap: 6px;
+    grid-row-gap: 16px;
     margin-top: 17px;
-    width: 76%;
+    width: 68%;
 
     @media (min-width:320px) and (max-width:768px) {
         width: 100%;
@@ -37,7 +38,7 @@ export const DivCard = styles.div`
     background-color: #ffffff;
     padding: 26px;
     // max-width: 30rem;
-    // height: 19rem;
+    height: 21rem;
 `
 
 export const ImageUser = styles.img`
@@ -91,20 +92,19 @@ export const Em = styles.em`
 `;
 
 export const Ul = styles.ul`
-    max-heigth: 60px;
+    max-height: 60px;
     margin-top: 12px;
+    .slick-dots {
+        bottom: -32px;
+    }
     .slick-track {
-        .slick-slide {
-            div {
-                margin-right: 14px;
-            }
-        }
+        width: 100000rem !important;
     }
 `;
 
 export const TextInfo = styles.li`
     display: block;
-    margin-rigth: 16px;
+    padding-right: 16px;
 
     & span {
         display: block;

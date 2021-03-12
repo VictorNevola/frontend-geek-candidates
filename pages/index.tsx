@@ -7,7 +7,7 @@ import { Cards } from '../components/Cards';
 import { Section, Main, H1, Strong, Em, Content } from './styles';
 
 
-const Home: NextPage<IFiltersAvailbles> = ({ technologies, experiences }) => {
+const Home: NextPage<IFiltersAvailbles> = ({ technologies, experiences, localizations }) => {
 
   return (
     <>
@@ -18,7 +18,7 @@ const Home: NextPage<IFiltersAvailbles> = ({ technologies, experiences }) => {
 
           <Content>
               <CandidatesContextProvider>
-                <Filters technologies={technologies} experiences={experiences} />
+                <Filters technologies={technologies} experiences={experiences} localizations={localizations} />
                 <Cards />
               </CandidatesContextProvider>
           </Content>

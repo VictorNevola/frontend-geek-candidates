@@ -1,4 +1,4 @@
-import styles from 'styled-components';
+import styles, {keyframes} from 'styled-components';
 import { IPropsStyleActiveFilterMobile } from './types';
 
 
@@ -30,7 +30,7 @@ export const BtnCloseFilterMobile = styles.button`
         font-size: 18px;
         cursor: pointer;
     }
-`
+`;
 
 export const Aside = styles.aside`
     display: flex;
@@ -60,6 +60,7 @@ export const Aside = styles.aside`
         transform: ${(props: IPropsStyleActiveFilterMobile) => props.active ? 'translateY(0px);' : 'translateY(40rem)' };
     }
 `;
+
 export const FilterInfos = styles.p`
     display: block;
     letter-spacing: 1.92px;
@@ -73,7 +74,7 @@ export const FilterInfos = styles.p`
 
 export const FiltersOptions = styles.div`
     margin-bottom: 18px
-`
+`;
 
 export const H2 = styles.h2`
     font-size: 18px;
@@ -190,4 +191,19 @@ export const BtnActionFilter = styles.button`
         justify-content: center;
         width: 100%
     }
+`;
+
+const spin = keyframes`
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+`;
+
+export const LoaderIcon = styles.div`
+    border: 4px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 4px solid #aa85af;
+    width: 24px;
+    height: 24px;
+    margin: 0 auto;
+    animation: ${spin} 2s linear infinite;
 `;

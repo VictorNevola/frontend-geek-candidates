@@ -1,6 +1,7 @@
 export interface Filters {
-    technologies: string[],
-    experiences?: string[]
+    filtersTechnologicSelected: string[],
+    filtersExperienceSelected?: string[],
+    filtersLocalizationsSelected?: string[]
 }
 
 export interface Candidate {
@@ -16,7 +17,11 @@ export interface Candidate {
 
 export interface CandidatesContextState {
     candidates: Candidate[];
-    filtersDefined: boolean;
-    setNewCandidatesCurrentFilters: ({technologies, experiences}: Filters ) => void;
+    filtersDefined: {
+        defined: boolean,
+        filterMainTech: string
+    };
+    loader: boolean,
+    setNewCandidatesCurrentFilters: ({filtersTechnologicSelected, filtersExperienceSelected, filtersLocalizationsSelected}: Filters ) => void;
 };
   

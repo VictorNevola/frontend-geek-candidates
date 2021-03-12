@@ -1,50 +1,43 @@
-import { Aside, FilterInfos, H2, Ul, Li, FiltersOptions, Label, InputCheckbox, SpanCheckbox, BtnActionFilter, BtnFilterMobile, BtnCloseFilterMobile } from './styles'
+import { Aside, FilterInfos, H2, Ul, Li, FiltersOptions, Label, InputCheckbox, SpanCheckbox, BtnActionFilter, BtnFilterMobile, BtnCloseFilterMobile, LoaderIcon } from './styles'
 import { IFiltersAvailbles } from '../../pages/types';
 import { CandidatesContext } from '../../context/candidates';
 import React, { useCallback, useContext, useState } from 'react';
 
-export const Filters = ({ experiences, technologies }: IFiltersAvailbles) => {
-    const { setNewCandidatesCurrentFilters } = useContext(CandidatesContext);
+export const Filters = ({ experiences, technologies, localizations }: IFiltersAvailbles) => {
+    const { setNewCandidatesCurrentFilters, loader } = useContext(CandidatesContext);
     const [activeFilterMobile, setActiveFilterMobile] = useState(false);
 
     const setFiltersTechnologic = new Set<string>();
     const setFiltersExperience = new Set<string>();
+    const setFiltersLocalization = new Set<string>();
     const [filtersTechnologicSelected, setFiltersTechnologicSelected] = useState<string[]>([]);
     const [filtersExperienceSelected, setFiltersExperienceSelected] = useState<string[]>([]);
+    const [filtersLocalizationsSelected, setFiltersLocalizationsSelected] = useState<string[]>([]);
 
-    const handlerFiltersTechnologic = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    const handlerFilters = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         const input = event.target;
         const inputValue = input.dataset.filter;
         const inputRef = input.dataset.ref;
 
         if (inputRef == 'technologic') {
-
-            if (setFiltersTechnologic.has(inputValue)) {
-                setFiltersTechnologic.delete(inputValue);
-            } else {
-                setFiltersTechnologic.add(inputValue)
-            }
-
-            return setFiltersTechnologicSelected(Array.from(setFiltersTechnologic.values()))
+            setFiltersTechnologic.has(inputValue) ? setFiltersTechnologic.delete(inputValue) : setFiltersTechnologic.add(inputValue);
+            return setFiltersTechnologicSelected(Array.from(setFiltersTechnologic.values()));
         }
 
         if (inputRef == 'experience') {
+            setFiltersExperience.has(inputValue) ? setFiltersExperience.delete(inputValue) : setFiltersExperience.add(inputValue);
+            return setFiltersExperienceSelected(Array.from(setFiltersExperience.values()));
+        }
 
-            if (setFiltersExperience.has(inputValue)) {
-                setFiltersExperience.delete(inputValue);
-            } else {
-                setFiltersExperience.add(inputValue)
-            }
-
-            return setFiltersExperienceSelected(Array.from(setFiltersExperience.values()))
+        if(inputRef == 'localization'){
+            setFiltersLocalization.has(inputValue) ? setFiltersLocalization.delete(inputValue) : setFiltersLocalization.add(inputValue)
+            return setFiltersLocalizationsSelected(Array.from(setFiltersLocalization.values()));
         }
 
     }, []);
 
-    const handlerSubmit = () => {
-        const technologies = filtersTechnologicSelected;
-        const experiences = filtersExperienceSelected;
-        setNewCandidatesCurrentFilters({technologies, experiences});
+    const handlerSubmit = () => {        
+        setNewCandidatesCurrentFilters({filtersTechnologicSelected, filtersExperienceSelected, filtersLocalizationsSelected});
         setActiveFilterMobile(false);
     }
 
@@ -64,12 +57,11 @@ export const Filters = ({ experiences, technologies }: IFiltersAvailbles) => {
                     <Ul>
                         {
                             technologies.map((tecnologic, index) => {
-                                // return <Li> {tecnologic.name} ({tecnologic.count}) </Li>
                                 return (
                                     <Li key={index}>
                                         <Label>
-                                            {tecnologic.name} ({tecnologic.count})
-                                                <InputCheckbox data-filter={tecnologic.name} data-ref="technologic" type="checkbox" onChange={(e) => handlerFiltersTechnologic(e)} />
+                                            {tecnologic.name}
+                                                <InputCheckbox data-filter={tecnologic.name} data-ref="technologic" type="checkbox" onChange={(e) => handlerFilters(e)} />
                                             <SpanCheckbox />
                                         </Label>
                                     </Li>
@@ -87,8 +79,27 @@ export const Filters = ({ experiences, technologies }: IFiltersAvailbles) => {
                                 return (
                                     <Li key={index}>
                                         <Label>
-                                            {experience.name.replace('years', 'anos')} ({experience.count})
-                                                <InputCheckbox data-filter={experience.name} data-ref="experience" type="checkbox" onChange={(e) => handlerFiltersTechnologic(e)}/>
+                                            {experience.name.replace('years', 'anos')}
+                                                <InputCheckbox data-filter={experience.name} data-ref="experience" type="checkbox" onChange={(e) => handlerFilters(e)}/>
+                                            <SpanCheckbox />
+                                        </Label>
+                                    </Li>
+                                )
+                            })
+                        }
+                    </Ul>
+                </FiltersOptions>
+
+                <FiltersOptions>
+                    <H2>localização</H2>
+                    <Ul>
+                        {
+                            localizations.map((localization, index) => {
+                                return (
+                                    <Li key={index}>
+                                        <Label>
+                                            {localization.name}
+                                                <InputCheckbox data-filter={localization.name} data-ref="localization" type="checkbox" onChange={(e) => handlerFilters(e)}/>
                                             <SpanCheckbox />
                                         </Label>
                                     </Li>
@@ -99,7 +110,12 @@ export const Filters = ({ experiences, technologies }: IFiltersAvailbles) => {
                 </FiltersOptions>
 
                 {
-                    filtersTechnologicSelected.length > 0 && <BtnActionFilter onClick={() => handlerSubmit()}> Filtrar </BtnActionFilter>
+                    filtersTechnologicSelected.length > 0 && 
+                        <BtnActionFilter onClick={() => handlerSubmit()}> 
+                           {
+                               loader ? <LoaderIcon /> : "Filtrar"
+                           }
+                        </BtnActionFilter>
                 }
 
             </Aside>
