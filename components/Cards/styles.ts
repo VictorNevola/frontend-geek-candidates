@@ -1,4 +1,4 @@
-import styles from 'styled-components';
+import styles, { keyframes } from 'styled-components';
 
 export const Section = styles.section`
     display: grid;
@@ -96,6 +96,10 @@ export const Ul = styles.ul`
     margin-top: 12px;
     .slick-dots {
         bottom: -32px;
+
+        @media (min-width:120px) and (max-width:375px) {
+            bottom: -60px;
+        }
     }
     .slick-track {
         width: 100000rem !important;
@@ -121,4 +125,20 @@ export const TextInfo = styles.li`
         min-width: 10px;
         padding: 3px 7px;
     }
-`;  
+`;
+
+const spin = keyframes`
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+`;
+
+export const LoaderIcon = styles.div`
+    border: 8px solid #aa85af;
+    border-radius: 50%;
+    border-top: 8px solid #6e2b77;
+    width: 48px;
+    height: 48px;
+    margin: 0 auto;
+    margin-top: 17px;
+    animation: ${spin} 2s linear infinite;
+`;

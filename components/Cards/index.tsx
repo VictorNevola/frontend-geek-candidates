@@ -1,12 +1,12 @@
 import { useContext } from 'react';
-import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import { CandidatesContext } from '../../context/candidates';
-import { Section, SpanInfo, DivCard, SpanCity, Title, SpanExperience, ImageUser, Em, Ul, TextInfo } from './styles'
+import { CandidatesContext } from '../../Context/candidates';
+import { Section, SpanInfo, DivCard, SpanCity, Title, SpanExperience, ImageUser, Em, Ul, TextInfo, LoaderIcon } from './styles'
 
 export const Cards = () => {
-    const { candidates, filtersDefined } = useContext(CandidatesContext);
+    const { candidates, filtersDefined, loader } = useContext(CandidatesContext);
 
     const settingsSlider = {
         dots: true,
@@ -20,73 +20,84 @@ export const Cards = () => {
         rows: 1,
         responsive: [
             {
-              breakpoint: 1024,
-              settings: {
-                slidesToShow: 3,
-                slidesToScroll: 3,
-              }
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3,
+                }
             },
             {
-              breakpoint: 600,
-              settings: {
-                slidesToShow: 3,
-                slidesToScroll: 3,
-              }
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3,
+                }
             },
             {
-              breakpoint: 480,
-              settings: {
-                slidesToShow: 2,
-                slidesToScroll: 2
-              }
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2
+                }
             }
         ]
     };
 
     return (
-        <Section>
-                {
-                    candidates.length == 0  && !filtersDefined?.defined &&
-                    <SpanInfo> Selecione ao menos uma tecnologia no filtro para visualizar os candidatos.</SpanInfo> 
-                }
+        <>
+            {
+                loader &&
+                <LoaderIcon />
+            }
 
-                {
-                    candidates.length == 0 && filtersDefined?.defined &&
-                    <SpanInfo> Não encontramos resultados para sua busca, verifique os filtros e tente novamente.</SpanInfo> 
+            {
+                !loader &&
+                <Section>
+                    {
+                        candidates.length == 0 && !filtersDefined?.defined && !loader &&
+                        <SpanInfo> Selecione ao menos uma tecnologia no filtro para visualizar os candidatos.</SpanInfo>
+                    }
 
-                }
+                    {
+                        candidates.length == 0 && filtersDefined?.defined && !loader &&
+                        <SpanInfo> Não encontramos resultados para sua busca, verifique os filtros e tente novamente.</SpanInfo>
 
-                {
-                    candidates.length > 0 && 
+                    }
 
-                    candidates.map((candidate, index) => {
+                    {
+                        candidates.length > 0 && !loader &&
 
-                        return (
-                            <DivCard key={index}> 
-                                <ImageUser src={candidate.photoUserUrl}  alt="User Profile"/>    
-                                <SpanCity> {candidate.city} </SpanCity>
-                                <Title> Desenvolvedor(a) {filtersDefined?.filterMainTech} </Title>
-                                <SpanExperience> Experiência {candidate.experience.replace('years', 'anos')}</SpanExperience>
-                                <Em> Tecnologias que ja trabalhou</Em>
-                                <Ul>
-                                    <Slider {...settingsSlider}> 
+                        candidates.map((candidate, index) => {
 
-                                        {candidate.technologies.map((tech, index) => {
-                                            return (
-                                                    <TextInfo key={index}> 
+                            return (
+                                <DivCard key={index}>
+                                    <ImageUser src={candidate.photoUserUrl} alt="User Profile" />
+                                    <SpanCity> {candidate.city} </SpanCity>
+                                    <Title> Desenvolvedor(a) {filtersDefined?.filterMainTech} </Title>
+                                    <SpanExperience> Experiência {candidate.experience.replace('years', 'anos')}</SpanExperience>
+                                    <Em> Tecnologias que ja trabalhou</Em>
+                                    <Ul>
+                                        <Slider {...settingsSlider}>
+
+                                            {candidate.technologies.map((tech, index) => {
+                                                return (
+                                                    <TextInfo key={index}>
                                                         <span>{tech.name}</span>
                                                     </TextInfo>
-                                            )
-                                        })}
+                                                )
+                                            })}
 
-                                    </Slider>
-                                    
-                                </Ul>
-                            </DivCard>
-                        )
-                    })
-                }
-                
-        </Section>
+                                        </Slider>
+
+                                    </Ul>
+                                </DivCard>
+                            )
+                        })
+                    }
+
+                </Section>
+            }
+
+        </>
     )
 }

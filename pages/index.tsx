@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 import { IFiltersAvailbles } from './types';
 import api from '../services/api';
-import CandidatesContextProvider from '../context/candidates';
+import CandidatesContextProvider from '../Context/candidates';
 import { Filters } from '../components/Filters';
 import { Cards } from '../components/Cards';
 import { Section, Main, H1, Strong, Em, Content } from './styles';

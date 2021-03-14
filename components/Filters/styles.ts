@@ -29,6 +29,10 @@ export const BtnCloseFilterMobile = styles.button`
         right: 31px;
         font-size: 18px;
         cursor: pointer;
+        border: none;
+        background: transparent;
+        font-weight: 600;
+        color: #6e2b77;
     }
 `;
 

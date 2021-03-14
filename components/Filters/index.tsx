@@ -1,6 +1,6 @@
 import { Aside, FilterInfos, H2, Ul, Li, FiltersOptions, Label, InputCheckbox, SpanCheckbox, BtnActionFilter, BtnFilterMobile, BtnCloseFilterMobile, LoaderIcon } from './styles'
 import { IFiltersAvailbles } from '../../pages/types';
-import { CandidatesContext } from '../../context/candidates';
+import { CandidatesContext } from '../../Context/candidates';
 import React, { useCallback, useContext, useState } from 'react';
 
 export const Filters = ({ experiences, technologies, localizations }: IFiltersAvailbles) => {
@@ -37,8 +37,13 @@ export const Filters = ({ experiences, technologies, localizations }: IFiltersAv
     }, []);
 
     const handlerSubmit = () => {        
+        filtersExperienceSelected.length > 0 && filtersExperienceSelected.push('12+ years');
         setNewCandidatesCurrentFilters({filtersTechnologicSelected, filtersExperienceSelected, filtersLocalizationsSelected});
         setActiveFilterMobile(false);
+        window.scrollTo({
+            top:0,
+            behavior: 'smooth',
+        });
     }
 
     return (
@@ -76,10 +81,15 @@ export const Filters = ({ experiences, technologies, localizations }: IFiltersAv
                     <Ul>
                         {
                             experiences.map((experience, index) => {
+
+                                const experienceName = experience.name.split('-')[0] && experience.name.split('years')[0];
+
                                 return (
                                     <Li key={index}>
                                         <Label>
-                                            {experience.name.replace('years', 'anos')}
+                                            {
+                                               experienceName + " anos ou mais"
+                                            }
                                                 <InputCheckbox data-filter={experience.name} data-ref="experience" type="checkbox" onChange={(e) => handlerFilters(e)}/>
                                             <SpanCheckbox />
                                         </Label>
