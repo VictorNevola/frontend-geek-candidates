@@ -36,8 +36,7 @@ export const Filters = ({ experiences, technologies, localizations }: IFiltersAv
 
     }, []);
 
-    const handlerSubmit = () => {        
-        filtersExperienceSelected.length > 0 && filtersExperienceSelected.push('12+ years');
+    const handlerSubmit = () => {
         setNewCandidatesCurrentFilters({filtersTechnologicSelected, filtersExperienceSelected, filtersLocalizationsSelected});
         setActiveFilterMobile(false);
         window.scrollTo({
