@@ -7,6 +7,7 @@ const contextDefaultValues: CandidatesContextState = {
     candidates: [],
     filtersDefined: {
         defined: false,
+        moreOneFilterTech: false,
         filterMainTech: ''
     },
     loader: false,
@@ -19,7 +20,7 @@ export const CandidatesContext = createContext<CandidatesContextState>(
 
 const CandidatesContextProvider: FC = ({ children }) => {
     const [candidates, setCandidates] = useState<Candidate[]>(contextDefaultValues.candidates);
-    const [filtersDefined, setFiltersDefined] = useState<{defined: boolean  , filterMainTech: string}>();
+    const [filtersDefined, setFiltersDefined] = useState<{defined: boolean, moreOneFilterTech: boolean ,filterMainTech: string}>();
     const [loader, setLoader] = useState<boolean>(false);
 
     const setNewCandidatesCurrentFilters = async ({filtersTechnologicSelected, filtersExperienceMinValue, filtersLocalizationsSelected}: Filters) => {
@@ -36,6 +37,7 @@ const CandidatesContextProvider: FC = ({ children }) => {
         setCandidates(filtersCandidates);
         setFiltersDefined({
             defined: true,
+            moreOneFilterTech: filtersTechnologicSelected.length > 1 ? true : false,
             filterMainTech: filtersTechnologicSelected[0]
         });
         setLoader(false);

@@ -19,6 +19,7 @@ export interface CandidatesContextState {
     candidates: Candidate[];
     filtersDefined: {
         defined: boolean,
+        moreOneFilterTech: boolean,
         filterMainTech: string
     };
     loader: boolean,

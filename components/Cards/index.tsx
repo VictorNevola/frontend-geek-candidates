@@ -4,6 +4,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { CandidatesContext } from '../../Context/candidates';
 import { Section, SpanInfo, DivCard, SpanCity, Title, SpanExperience, ImageUser, Em, Ul, TextInfo, LoaderIcon } from './styles'
+import { filter } from 'cypress/types/bluebird';
 
 export const Cards = () => {
     const { candidates, filtersDefined, loader } = useContext(CandidatesContext);
@@ -69,11 +70,21 @@ export const Cards = () => {
 
                         candidates.map((candidate, index) => {
 
+                            const candidateMainTech = candidate.technologies.find(tech => tech.is_main_tech);
+
                             return (
                                 <DivCard key={index}>
                                     <ImageUser src={candidate.photoUserUrl} alt="User Profile" />
                                     <SpanCity> {candidate.city} </SpanCity>
-                                    <Title> Desenvolvedor(a) {filtersDefined?.filterMainTech} </Title>
+
+                                    {
+                                        filtersDefined?.moreOneFilterTech && 
+                                        <Title> Desenvolvedor(a) {candidateMainTech.name} </Title>
+                                    }
+                                    {
+                                        !filtersDefined?.moreOneFilterTech && 
+                                        <Title> Desenvolvedor(a) {filtersDefined?.filterMainTech}</Title>
+                                    }
                                     <SpanExperience> Experiência {candidate.experience.replace('years', 'anos')}</SpanExperience>
                                     <Em> Tecnologias que ja trabalhou</Em>
                                     <Ul>
