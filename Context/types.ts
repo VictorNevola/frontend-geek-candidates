@@ -1,6 +1,6 @@
 export interface Filters {
     filtersTechnologicSelected: string[],
-    filtersExperienceSelected?: string[],
+    filtersExperienceMinValue?: number,
     filtersLocalizationsSelected?: string[]
 }
 
@@ -22,6 +22,6 @@ export interface CandidatesContextState {
         filterMainTech: string
     };
     loader: boolean,
-    setNewCandidatesCurrentFilters: ({filtersTechnologicSelected, filtersExperienceSelected, filtersLocalizationsSelected}: Filters ) => void;
+    setNewCandidatesCurrentFilters: ({filtersTechnologicSelected, filtersExperienceMinValue, filtersLocalizationsSelected}: Filters ) => void;
 };
   

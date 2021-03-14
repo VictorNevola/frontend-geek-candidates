@@ -8,10 +8,9 @@ export const Filters = ({ experiences, technologies, localizations }: IFiltersAv
     const [activeFilterMobile, setActiveFilterMobile] = useState(false);
 
     const setFiltersTechnologic = new Set<string>();
-    const setFiltersExperience = new Set<string>();
     const setFiltersLocalization = new Set<string>();
     const [filtersTechnologicSelected, setFiltersTechnologicSelected] = useState<string[]>([]);
-    const [filtersExperienceSelected, setFiltersExperienceSelected] = useState<string[]>([]);
+    const [filtersExperienceMinValue, setFiltersExperienceSelected] = useState<number>();
     const [filtersLocalizationsSelected, setFiltersLocalizationsSelected] = useState<string[]>([]);
 
     const handlerFilters = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,11 +24,13 @@ export const Filters = ({ experiences, technologies, localizations }: IFiltersAv
         }
 
         if (inputRef == 'experience') {
-            setFiltersExperience.has(inputValue) ? setFiltersExperience.delete(inputValue) : setFiltersExperience.add(inputValue);
-            return setFiltersExperienceSelected(Array.from(setFiltersExperience.values()));
+            const experiencesCheckboxs = document.querySelectorAll('#checkbox_experiences input:checked');
+            experiencesCheckboxs?.forEach((inputChecked: HTMLInputElement) => inputChecked.checked = false);
+            input.checked = true;
+            return setFiltersExperienceSelected(Number(inputValue))
         }
 
-        if(inputRef == 'localization'){
+        if (inputRef == 'localization') {
             setFiltersLocalization.has(inputValue) ? setFiltersLocalization.delete(inputValue) : setFiltersLocalization.add(inputValue)
             return setFiltersLocalizationsSelected(Array.from(setFiltersLocalization.values()));
         }
@@ -37,7 +38,7 @@ export const Filters = ({ experiences, technologies, localizations }: IFiltersAv
     }, []);
 
     const handlerSubmit = () => {
-        setNewCandidatesCurrentFilters({filtersTechnologicSelected, filtersExperienceSelected, filtersLocalizationsSelected});
+        setNewCandidatesCurrentFilters({filtersTechnologicSelected, filtersExperienceMinValue, filtersLocalizationsSelected});
         setActiveFilterMobile(false);
         window.scrollTo({
             top:0,
@@ -46,7 +47,7 @@ export const Filters = ({ experiences, technologies, localizations }: IFiltersAv
     }
 
     return (
-        <> 
+        <>
 
             <BtnFilterMobile onClick={() => setActiveFilterMobile(true)}> FILTRE 🔍 </BtnFilterMobile>
 
@@ -65,7 +66,7 @@ export const Filters = ({ experiences, technologies, localizations }: IFiltersAv
                                     <Li key={index}>
                                         <Label>
                                             {tecnologic.name}
-                                                <InputCheckbox data-filter={tecnologic.name} data-ref="technologic" type="checkbox" onChange={(e) => handlerFilters(e)} />
+                                            <InputCheckbox data-filter={tecnologic.name} data-ref="technologic" type="checkbox" onChange={(e) => handlerFilters(e)} />
                                             <SpanCheckbox />
                                         </Label>
                                     </Li>
@@ -76,20 +77,20 @@ export const Filters = ({ experiences, technologies, localizations }: IFiltersAv
                 </FiltersOptions>
 
                 <FiltersOptions>
-                    <H2>Tempo de Experiência</H2>
-                    <Ul>
+                    <H2>Experiência apartir de</H2>
+                    <Ul id='checkbox_experiences'>
                         {
                             experiences.map((experience, index) => {
 
-                                const experienceName = experience.name.split('-')[0] && experience.name.split('years')[0];
+                                const minExperienceFormated = Number(experience.name.split('years')[0].split('-')[0].replace('+', ''));
 
                                 return (
                                     <Li key={index}>
                                         <Label>
                                             {
-                                               experienceName + " anos ou mais"
+                                                minExperienceFormated + " anos"
                                             }
-                                                <InputCheckbox data-filter={experience.name} data-ref="experience" type="checkbox" onChange={(e) => handlerFilters(e)}/>
+                                            <InputCheckbox data-filter={minExperienceFormated} data-ref="experience" type="checkbox" onChange={(e) => handlerFilters(e)} />
                                             <SpanCheckbox />
                                         </Label>
                                     </Li>
@@ -108,7 +109,7 @@ export const Filters = ({ experiences, technologies, localizations }: IFiltersAv
                                     <Li key={index}>
                                         <Label>
                                             {localization.name}
-                                                <InputCheckbox data-filter={localization.name} data-ref="localization" type="checkbox" onChange={(e) => handlerFilters(e)}/>
+                                            <InputCheckbox data-filter={localization.name} data-ref="localization" type="checkbox" onChange={(e) => handlerFilters(e)} />
                                             <SpanCheckbox />
                                         </Label>
                                     </Li>
@@ -119,12 +120,12 @@ export const Filters = ({ experiences, technologies, localizations }: IFiltersAv
                 </FiltersOptions>
 
                 {
-                    filtersTechnologicSelected.length > 0 && 
-                        <BtnActionFilter onClick={() => handlerSubmit()}> 
-                           {
-                               loader ? <LoaderIcon /> : "Filtrar"
-                           }
-                        </BtnActionFilter>
+                    filtersTechnologicSelected.length > 0 &&
+                    <BtnActionFilter onClick={() => handlerSubmit()}>
+                        {
+                            loader ? <LoaderIcon /> : "Filtrar"
+                        }
+                    </BtnActionFilter>
                 }
 
             </Aside>

@@ -22,25 +22,17 @@ const CandidatesContextProvider: FC = ({ children }) => {
     const [filtersDefined, setFiltersDefined] = useState<{defined: boolean  , filterMainTech: string}>();
     const [loader, setLoader] = useState<boolean>(false);
 
-    const setNewCandidatesCurrentFilters = async ({filtersTechnologicSelected, filtersExperienceSelected, filtersLocalizationsSelected}: Filters) => {
+    const setNewCandidatesCurrentFilters = async ({filtersTechnologicSelected, filtersExperienceMinValue, filtersLocalizationsSelected}: Filters) => {
         
         setLoader(true);
 
         const dataPayload = {
             filtersTechnologies: filtersTechnologicSelected,
-            filtersExperienceYears: filtersExperienceSelected,
+            filtersExperienceMinNumber: filtersExperienceMinValue,
             filterLocalizations: filtersLocalizationsSelected
         }
         const filtersCandidates: Candidate[] = await api.post('api/filterCandidates', dataPayload).then(data => data.data);
-        const setPhotoUsers = filtersCandidates?.map( async candidate => {
-            const randomUserInfos = await axios.get('https://randomuser.me/api/').then(data => data.data);
-            const {picture: {medium}} = randomUserInfos.results[0];
-            candidate.photoUserUrl = medium;
-            return candidate;
-        });
 
-        
-        await Promise.all(setPhotoUsers);
         setCandidates(filtersCandidates);
         setFiltersDefined({
             defined: true,
