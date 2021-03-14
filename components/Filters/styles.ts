@@ -46,7 +46,8 @@ export const Aside = styles.aside`
     background-color: #ffffff;
     padding: 26px;
     transition: all .4s ease;
-
+    max-width: 22rem;
+    
     @media (min-width:320px) and (max-width:768px) {
         display: block;
         position: fixed;
