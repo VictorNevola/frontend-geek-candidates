@@ -1,5 +1,5 @@
 import { Aside, FilterInfos, H2, Ul, Li, FiltersOptions, Label, InputCheckbox, SpanCheckbox, BtnActionFilter, BtnFilterMobile, BtnCloseFilterMobile, LoaderIcon } from './styles'
-import { IFiltersAvailbles } from '../../pages/types';
+import { IFiltersAvailbles } from '../../typings/pages/home';
 import { CandidatesContext } from '../../Context/candidates';
 import React, { useCallback, useContext, useState } from 'react';
 
