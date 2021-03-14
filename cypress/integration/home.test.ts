@@ -21,15 +21,15 @@ describe('Renderiza a Home', () => {
 
     it('Tenho uma vaga para Florianópolis, para trabalhar com Ruby, e quero 2 anos ou mais de experiência', () => {
       //Set Ruby
-      cy.get(':nth-child(3) > .styles__Ul-sc-1mb3uxy-6 > :nth-child(52) > .styles__Label-sc-1mb3uxy-8').click({force: true});
+      cy.get(':nth-child(112) > .styles__Label-sc-1mb3uxy-8').click({force: true});
       //Set Experience 2-3 anos ou mais
-      cy.get(':nth-child(4) > .styles__Ul-sc-1mb3uxy-6 > :nth-child(3) > .styles__Label-sc-1mb3uxy-8').click({force: true});
+      cy.get('#checkbox_experiences > :nth-child(3) > :nth-child(2)').click({force: true});
       //Set Localizarion Florianopolis-SC
       cy.get(':nth-child(5) > .styles__Ul-sc-1mb3uxy-6 > :nth-child(18) > .styles__Label-sc-1mb3uxy-8').click({force: true});
       //Click In Filter
       cy.get('.styles__BtnActionFilter-sc-1mb3uxy-11').click({force: true});
       //Return Cards
-      cy.get('.styles__Section-sc-1ln7tar-0').children('div').its('length').should('be.gt', 1);
+      cy.get('.styles__Section-sc-1ln7tar-0').children('div').its('length').should('be.gte', 1)
     })
 
 
