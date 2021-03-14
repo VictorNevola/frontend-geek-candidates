@@ -1,4 +1,3 @@
-//PT
 <h1>Pagína de candidatos com filtros</h1>
 <p >Esse projeto é uma simples aplicação, para filtrar candidados do banco de dados apartir dos filtros selecionados, esta aplicação é complementar do repositorio: https://github.com/VictorNevola/backend-geek-candidates </p>
 
