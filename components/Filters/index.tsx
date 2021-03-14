@@ -38,10 +38,10 @@ export const Filters = ({ experiences, technologies, localizations }: IFiltersAv
     }, []);
 
     const handlerSubmit = () => {
-        setNewCandidatesCurrentFilters({filtersTechnologicSelected, filtersExperienceMinValue, filtersLocalizationsSelected});
+        setNewCandidatesCurrentFilters({ filtersTechnologicSelected, filtersExperienceMinValue, filtersLocalizationsSelected });
         setActiveFilterMobile(false);
         window.scrollTo({
-            top:0,
+            top: 0,
             behavior: 'smooth',
         });
     }
@@ -86,13 +86,26 @@ export const Filters = ({ experiences, technologies, localizations }: IFiltersAv
 
                                 return (
                                     <Li key={index}>
+
                                         <Label>
                                             {
-                                                minExperienceFormated + " anos"
+                                                index === 0 && "Sem experiência"
                                             }
                                             <InputCheckbox data-filter={minExperienceFormated} data-ref="experience" type="checkbox" onChange={(e) => handlerFilters(e)} />
                                             <SpanCheckbox />
                                         </Label>
+
+                                        {
+                                            index !== 0 &&
+                                            <Label>
+                                                {
+                                                    index === 1 ? minExperienceFormated + " ano" : minExperienceFormated + " anos"
+                                                }
+                                                <InputCheckbox data-filter={minExperienceFormated} data-ref="experience" type="checkbox" onChange={(e) => handlerFilters(e)} />
+                                                <SpanCheckbox />
+                                            </Label>
+                                        }
+
                                     </Li>
                                 )
                             })
