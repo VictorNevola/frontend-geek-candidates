@@ -4,14 +4,15 @@ import { CandidatesContext } from '../../Context/candidates';
 import React, { useCallback, useContext, useState } from 'react';
 
 export const Filters = ({ experiences, technologies, localizations }: IFiltersAvailbles) => {
-    const { setNewCandidatesCurrentFilters, loader } = useContext(CandidatesContext);
-    const [activeFilterMobile, setActiveFilterMobile] = useState(false);
-
     const setFiltersTechnologic = new Set<string>();
     const setFiltersLocalization = new Set<string>();
+
+    const { setNewCandidatesCurrentFilters, loader } = useContext(CandidatesContext);
+    
     const [filtersTechnologicSelected, setFiltersTechnologicSelected] = useState<string[]>([]);
     const [filtersExperienceMinValue, setFiltersExperienceSelected] = useState<number>();
     const [filtersLocalizationsSelected, setFiltersLocalizationsSelected] = useState<string[]>([]);
+    const [activeFilterMobile, setActiveFilterMobile] = useState(false);
 
     const handlerFilters = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         const input = event.target;
@@ -40,15 +41,11 @@ export const Filters = ({ experiences, technologies, localizations }: IFiltersAv
     const handlerSubmit = () => {
         setNewCandidatesCurrentFilters({ filtersTechnologicSelected, filtersExperienceMinValue, filtersLocalizationsSelected });
         setActiveFilterMobile(false);
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth',
-        });
+        window.scrollTo({ top: 0, behavior: 'smooth',});
     }
 
     return (
         <>
-
             <BtnFilterMobile onClick={() => setActiveFilterMobile(true)}> FILTRE 🔍 </BtnFilterMobile>
 
             <Aside active={activeFilterMobile}>
@@ -60,10 +57,8 @@ export const Filters = ({ experiences, technologies, localizations }: IFiltersAv
                 <FiltersOptions>
                     <H2>Tecnologias</H2>
                     <Ul>
-                        {
-                            technologies.map((tecnologic, index) => {
-                                return (
-                                    <Li key={index}>
+                        { technologies.map((tecnologic, index) => {
+                                return ( <Li key={index}>
                                         <Label>
                                             {tecnologic.name}
                                             <InputCheckbox data-filter={tecnologic.name} data-ref="technologic" type="checkbox" onChange={(e) => handlerFilters(e)} />
@@ -86,26 +81,19 @@ export const Filters = ({ experiences, technologies, localizations }: IFiltersAv
 
                                 return (
                                     <Li key={index}>
-
                                         <Label>
-                                            {
-                                                index === 0 && "Sem experiência"
-                                            }
+                                            { index === 0 && "Sem experiência" }
                                             <InputCheckbox data-filter={minExperienceFormated} data-ref="experience" type="checkbox" onChange={(e) => handlerFilters(e)} />
                                             <SpanCheckbox />
                                         </Label>
 
-                                        {
-                                            index !== 0 &&
+                                        { index !== 0 &&
                                             <Label>
-                                                {
-                                                    index === 1 ? minExperienceFormated + " ano" : minExperienceFormated + " anos"
-                                                }
+                                                { index === 1 ? minExperienceFormated + " ano" : minExperienceFormated + " anos" }
                                                 <InputCheckbox data-filter={minExperienceFormated} data-ref="experience" type="checkbox" onChange={(e) => handlerFilters(e)} />
                                                 <SpanCheckbox />
                                             </Label>
                                         }
-
                                     </Li>
                                 )
                             })
@@ -116,8 +104,7 @@ export const Filters = ({ experiences, technologies, localizations }: IFiltersAv
                 <FiltersOptions>
                     <H2>localização</H2>
                     <Ul>
-                        {
-                            localizations.map((localization, index) => {
+                        { localizations.map((localization, index) => {
                                 return (
                                     <Li key={index}>
                                         <Label>
@@ -132,14 +119,7 @@ export const Filters = ({ experiences, technologies, localizations }: IFiltersAv
                     </Ul>
                 </FiltersOptions>
 
-                {
-                    filtersTechnologicSelected.length > 0 &&
-                    <BtnActionFilter onClick={() => handlerSubmit()}>
-                        {
-                            loader ? <LoaderIcon /> : "Filtrar"
-                        }
-                    </BtnActionFilter>
-                }
+                { filtersTechnologicSelected.length > 0 && <BtnActionFilter onClick={() => handlerSubmit()}> { loader ? <LoaderIcon /> : "Filtrar" } </BtnActionFilter>}
 
             </Aside>
         </>
